@@ -5,14 +5,13 @@ import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { Label } from "./ui/label";
 import { toast } from "sonner";
-import { Mail, Phone, MessageSquare, Send } from "lucide-react";
+import { Mail, MessageSquare, Send } from "lucide-react";
 import wechatQR from "figma:asset/de6bf7ac200b7d647eb97380aafd7c672063a8ff.png";
 
 export function Contact() {
   const [formData, setFormData] = useState({
     name: "",
     company: "",
-    phone: "",
     requirements: ""
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -20,14 +19,14 @@ export function Contact() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!formData.name || !formData.phone) {
-      toast.error("请填写姓名和联系电话");
+    if (!formData.name) {
+      toast.error("请填写姓名");
       return;
     }
 
     try {
       setIsSubmitting(true);
-      const response = await fetch("https://formsubmit.co/ajax/hello@lingexpress.com", {
+      const response = await fetch("https://formsubmit.co/ajax/lingexpress@cyber-router.com", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -36,7 +35,6 @@ export function Contact() {
         body: JSON.stringify({
           姓名: formData.name,
           公司: formData.company,
-          联系电话: formData.phone,
           需求描述: formData.requirements,
           来源: "LingExpress 官网"
         })
@@ -50,11 +48,10 @@ export function Contact() {
       setFormData({
         name: "",
         company: "",
-        phone: "",
         requirements: ""
       });
     } catch (error) {
-      toast.error("提交失败，请稍后再试或通过电话联系我们");
+      toast.error("提交失败，请稍后再试或通过邮箱联系我们");
     } finally {
       setIsSubmitting(false);
     }
@@ -113,22 +110,6 @@ export function Contact() {
               </div>
 
               <div>
-                <Label htmlFor="phone" className="text-white">
-                  联系电话 <span className="text-orange-400">*</span>
-                </Label>
-                <Input
-                  id="phone"
-                  name="phone"
-                  type="tel"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  placeholder="请输入您的联系电话"
-                  className="mt-2 bg-white/10 border-white/30 text-white placeholder:text-gray-400"
-                  required
-                />
-              </div>
-
-              <div>
                 <Label htmlFor="requirements" className="text-white">
                   需求描述
                 </Label>
@@ -165,21 +146,6 @@ export function Contact() {
           <div className="space-y-6">
             <Card className="p-6 bg-white/10 backdrop-blur-lg border-white/20">
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <Phone className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <h4 className="mb-2 text-white">电话咨询</h4>
-                  <p className="text-blue-200">
-                    工作日 9:00-18:00
-                  </p>
-                  <p className="text-white mt-1">400-138-6688</p>
-                </div>
-              </div>
-            </Card>
-
-            <Card className="p-6 bg-white/10 backdrop-blur-lg border-white/20">
-              <div className="flex items-start gap-4">
                 <div className="w-12 h-12 bg-purple-500 rounded-lg flex items-center justify-center flex-shrink-0">
                   <Mail className="w-6 h-6 text-white" />
                 </div>
@@ -189,8 +155,8 @@ export function Contact() {
                     24小时内回复
                   </p>
                   <p className="text-white mt-1">
-                    <a href="mailto:hello@lingexpress.com" className="hover:underline">
-                      hello@lingexpress.com
+                    <a href="mailto:lingexpress@cyber-router.com" className="hover:underline">
+                      lingexpress@cyber-router.com
                     </a>
                   </p>
                 </div>
