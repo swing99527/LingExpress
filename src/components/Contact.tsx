@@ -4,7 +4,7 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { Label } from "./ui/label";
-import { toast } from "sonner@2.0.3";
+import { toast } from "sonner";
 import { Mail, Phone, MessageSquare, Send } from "lucide-react";
 import wechatQR from "figma:asset/de6bf7ac200b7d647eb97380aafd7c672063a8ff.png";
 
