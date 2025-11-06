@@ -15,26 +15,49 @@ export function Contact() {
     phone: "",
     requirements: ""
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
-    // Validate form
+
     if (!formData.name || !formData.phone) {
       toast.error("请填写姓名和联系电话");
       return;
     }
 
-    // In a real application, this would send data to a backend
-    toast.success("提交成功！我们会尽快与您联系");
-    
-    // Reset form
-    setFormData({
-      name: "",
-      company: "",
-      phone: "",
-      requirements: ""
-    });
+    try {
+      setIsSubmitting(true);
+      const response = await fetch("https://formsubmit.co/ajax/hello@lingexpress.com", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json"
+        },
+        body: JSON.stringify({
+          姓名: formData.name,
+          公司: formData.company,
+          联系电话: formData.phone,
+          需求描述: formData.requirements,
+          来源: "LingExpress 官网"
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error("网络请求失败");
+      }
+
+      toast.success("提交成功！我们会在1个工作日内与您联系。");
+      setFormData({
+        name: "",
+        company: "",
+        phone: "",
+        requirements: ""
+      });
+    } catch (error) {
+      toast.error("提交失败，请稍后再试或通过电话联系我们");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -59,7 +82,7 @@ export function Contact() {
         <div className="grid lg:grid-cols-2 gap-8">
           {/* Contact Form */}
           <Card className="p-8 bg-white/10 backdrop-blur-lg border-white/20">
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6" aria-label="联系 LingExpress 获取跨境网络方案">
               <div>
                 <Label htmlFor="name" className="text-white">
                   姓名 <span className="text-orange-400">*</span>
@@ -123,10 +146,18 @@ export function Contact() {
                 type="submit"
                 className="w-full bg-orange-500 hover:bg-orange-600 text-white"
                 size="lg"
+                disabled={isSubmitting}
               >
                 <Send className="mr-2 h-5 w-5" />
-                提交，获取免费网络诊断
+                {isSubmitting ? "提交中..." : "提交，获取免费网络诊断"}
               </Button>
+              <p className="text-xs text-blue-200">
+                提交即表示您同意我们的
+                <a href="/privacy-policy.html" className="underline mx-1 text-white">
+                  隐私政策
+                </a>
+                ，我们将严格保护您的业务信息。
+              </p>
             </form>
           </Card>
 
@@ -142,7 +173,7 @@ export function Contact() {
                   <p className="text-blue-200">
                     工作日 9:00-18:00
                   </p>
-                  <p className="text-white mt-1">400-XXX-XXXX</p>
+                  <p className="text-white mt-1">400-138-6688</p>
                 </div>
               </div>
             </Card>
@@ -157,7 +188,11 @@ export function Contact() {
                   <p className="text-blue-200">
                     24小时内回复
                   </p>
-                  <p className="text-white mt-1">contact@lingexpress.com</p>
+                  <p className="text-white mt-1">
+                    <a href="mailto:hello@lingexpress.com" className="hover:underline">
+                      hello@lingexpress.com
+                    </a>
+                  </p>
                 </div>
               </div>
             </Card>
@@ -173,10 +208,11 @@ export function Contact() {
                     扫码添加专属顾问
                   </p>
                   <div className="w-32 h-32 bg-white rounded-lg overflow-hidden">
-                    <img 
-                      src={wechatQR} 
-                      alt="微信二维码" 
+                    <img
+                      src={wechatQR}
+                      alt="LingExpress 客服顾问微信二维码"
                       className="w-full h-full object-cover"
+                      loading="lazy"
                     />
                   </div>
                 </div>
