@@ -82,8 +82,9 @@ export function UseCases() {
                   <div className="relative h-64 md:h-auto">
                     <ImageWithFallback
                       src={useCase.image}
-                      alt={useCase.label}
+                      alt={`${useCase.label}跨境网络解决方案案例展示图`}
                       className="w-full h-full object-cover"
+                      loading="lazy"
                     />
                     <div className="absolute inset-0 bg-gradient-to-r from-black/40 to-transparent"></div>
                   </div>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, type MouseEvent } from "react";
 import { Button } from "./ui/button";
 import { Menu, X } from "lucide-react";
 import { Logo } from "./Logo";
@@ -15,8 +15,15 @@ export function Navigation() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const scrollToSection = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+  const handleAnchorNavigation = (event: MouseEvent<HTMLAnchorElement>, id: string) => {
+    const element = typeof document !== 'undefined' ? document.getElementById(id) : null;
+    if (element) {
+      event.preventDefault();
+      element.scrollIntoView({ behavior: 'smooth' });
+      if (typeof window !== 'undefined') {
+        window.history.replaceState(null, '', `#${id}`);
+      }
+    }
     setIsMobileMenuOpen(false);
   };
 
@@ -39,34 +46,36 @@ export function Navigation() {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center gap-4">
-            <button 
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            <a
+              href="#hero"
               className="flex items-center gap-3 group"
+              onClick={(event) => handleAnchorNavigation(event, 'hero')}
+              aria-label="返回页面顶部"
             >
               <Logo className="w-10 h-10" />
               <div className="flex flex-col">
                 <span className="text-gray-900 transition-colors group-hover:text-blue-600">LingExpress</span>
                 <span className="text-xs text-gray-500">灵思跨境专线</span>
               </div>
-            </button>
+            </a>
           </div>
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-6">
             {navItems.map((item) => (
-              <button
+              <a
                 key={item.id}
-                onClick={() => scrollToSection(item.id)}
+                href={`#${item.id}`}
+                onClick={(event) => handleAnchorNavigation(event, item.id)}
                 className="text-gray-700 hover:text-blue-600 transition-colors text-sm"
               >
                 {item.label}
-              </button>
+              </a>
             ))}
-            <Button 
-              className="bg-orange-500 hover:bg-orange-600"
-              onClick={() => scrollToSection('contact')}
-            >
-              获取专属方案
+            <Button className="bg-orange-500 hover:bg-orange-600" asChild>
+              <a href="#contact" onClick={(event) => handleAnchorNavigation(event, 'contact')}>
+                获取专属方案
+              </a>
             </Button>
           </div>
 
@@ -74,6 +83,9 @@ export function Navigation() {
           <button
             className="lg:hidden text-gray-700"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-expanded={isMobileMenuOpen}
+            aria-controls="mobile-navigation"
+            type="button"
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -81,21 +93,21 @@ export function Navigation() {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden mt-4 pb-4 border-t pt-4">
+          <div id="mobile-navigation" className="lg:hidden mt-4 pb-4 border-t pt-4">
             {navItems.map((item) => (
-              <button
+              <a
                 key={item.id}
-                onClick={() => scrollToSection(item.id)}
-                className="block w-full text-left py-2 text-gray-700 hover:text-blue-600 transition-colors"
+                href={`#${item.id}`}
+                onClick={(event) => handleAnchorNavigation(event, item.id)}
+                className="block w-full py-2 text-gray-700 hover:text-blue-600 transition-colors"
               >
                 {item.label}
-              </button>
+              </a>
             ))}
-            <Button 
-              className="w-full mt-4 bg-orange-500 hover:bg-orange-600"
-              onClick={() => scrollToSection('contact')}
-            >
-              获取专属方案
+            <Button className="w-full mt-4 bg-orange-500 hover:bg-orange-600" asChild>
+              <a href="#contact" onClick={(event) => handleAnchorNavigation(event, 'contact')}>
+                获取专属方案
+              </a>
             </Button>
           </div>
         )}

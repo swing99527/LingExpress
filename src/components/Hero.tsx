@@ -8,20 +8,21 @@ export function Hero() {
   };
 
   return (
-    <section className="relative h-screen flex items-center justify-center overflow-hidden">
+    <section id="hero" className="relative h-screen flex items-center justify-center overflow-hidden" aria-labelledby="hero-heading">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <ImageWithFallback
           src="https://images.unsplash.com/photo-1713127563314-5163b052cf8b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxnbG9iYWwlMjBidXNpbmVzcyUyMG5ldHdvcmt8ZW58MXx8fHwxNzYyMzA1MDgyfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
-          alt="Global Network"
+          alt="LingExpress 灵思跨境专线支持全球业务的网络拓扑图"
           className="w-full h-full object-cover"
+          loading="lazy"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/40"></div>
       </div>
 
       {/* Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-6 text-center text-white">
-        <h1 className="mb-6 text-white">
+        <h1 id="hero-heading" className="mb-6 text-white">
           告别网络卡顿，专注跨境增长
         </h1>
         <p className="mb-8 text-xl text-gray-200 max-w-3xl mx-auto">
