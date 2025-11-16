@@ -18,10 +18,10 @@ export function Footer() {
               </div>
             </div>
             <p className="text-gray-400 mb-4">
-              企业级合规跨境专线解决方案提供商
+              专注解决跨境电商网络与运营问题
             </p>
             <p className="text-sm text-gray-500">
-              为跨境电商和外向型企业提供稳定、合规、智能的网络服务
+              为跨境电商企业提供稳定网络、账号安全、运营效率的一站式解决方案
             </p>
           </div>
 
@@ -30,7 +30,7 @@ export function Footer() {
             <h4 className="text-white mb-4">快速链接</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <a href="#pain-points" className="hover:text-blue-400 transition-colors">
+                <a href="#problems" className="hover:text-blue-400 transition-colors">
                   业务痛点
                 </a>
               </li>
@@ -54,19 +54,19 @@ export function Footer() {
 
           {/* Services */}
           <div>
-            <h4 className="text-white mb-4">核心优势</h4>
+            <h4 className="text-white mb-4">我们解决</h4>
             <ul className="space-y-2 text-sm">
               <li className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                <span>企业级安全认证</span>
+                <span>直播卡顿、支付失败</span>
               </li>
               <li className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                <span>合规专线通道</span>
+                <span>IP关联、账号被封</span>
               </li>
               <li className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                <span>7×24小时服务</span>
+                <span>运营效率低、管理乱</span>
               </li>
             </ul>
           </div>

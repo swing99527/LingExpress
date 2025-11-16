@@ -4,16 +4,15 @@ import { Navigation } from "./components/Navigation";
 import { Hero } from "./components/Hero";
 import { PainPoints } from "./components/PainPoints";
 import { Solution } from "./components/Solution";
-import { Comparison } from "./components/Comparison";
 import { UseCases } from "./components/UseCases";
 import { Pricing } from "./components/Pricing";
-import { Deployment } from "./components/Deployment";
+import { Testimonials } from "./components/Testimonials";
 import { Contact } from "./components/Contact";
 import { Footer } from "./components/Footer";
 
 export default function App() {
   useEffect(() => {
-    document.title = "LingExpress - 灵思跨境专线 | 企业级合规跨境网络解决方案";
+    document.title = "LingExpress - 灵思跨境专线 | 解决跨境电商网络与运营问题";
   }, []);
 
   return (
@@ -22,10 +21,9 @@ export default function App() {
       <Hero />
       <PainPoints />
       <Solution />
-      <Comparison />
       <UseCases />
       <Pricing />
-      <Deployment />
+      <Testimonials />
       <Contact />
       <Footer />
       <Toaster />

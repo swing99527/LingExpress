@@ -1,110 +1,219 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
+import { Video, ShoppingBag, Store, TrendingUp } from "lucide-react";
 import { Card } from "./ui/card";
-import { Video, ShoppingCart, Factory, CheckCircle2 } from "lucide-react";
-import { ImageWithFallback } from "./figma/ImageWithFallback";
+
+const useCases = [
+  {
+    icon: Video,
+    type: "直播电商团队",
+    scale: "月GMV 100万+",
+    mainProblems: [
+      "TikTok/YouTube直播经常卡顿掉线",
+      "观众互动延迟，影响转化",
+      "直播间权重下降，流量减少"
+    ],
+    ourSolution: [
+      "专线保障直播零卡顿",
+      "实时互动延迟<200ms",
+      "AI智能客服处理重复咨询"
+    ],
+    results: [
+      "直播观看时长提升 40%",
+      "转化率提升 25-35%",
+      "人力成本降低 30%"
+    ],
+    roi: "3个月回本",
+    color: "red"
+  },
+  {
+    icon: ShoppingBag,
+    type: "独立站卖家",
+    scale: "月销 50-200万",
+    mainProblems: [
+      "PayPal/Stripe支付成功率低",
+      "海外客户咨询响应慢",
+      "广告投放数据分析滞后"
+    ],
+    ourSolution: [
+      "支付通道稳定性保障",
+      "WhatsApp消息实时送达+AI客服",
+      "实时数据看板，快速调整投放"
+    ],
+    results: [
+      "支付成功率提升至 95%+",
+      "客服响应时间缩短 70%",
+      "广告ROI提升 40%"
+    ],
+    roi: "2个月回本",
+    color: "blue"
+  },
+  {
+    icon: Store,
+    type: "多店铺运营商",
+    scale: "5-20个店铺",
+    mainProblems: [
+      "IP关联导致店铺被封",
+      "多平台管理混乱，效率低",
+      "数据分散，无法统一决策"
+    ],
+    ourSolution: [
+      "每店铺独立IP，完全隔离",
+      "聚合所有平台消息和订单",
+      "统一数据看板，智能分析"
+    ],
+    results: [
+      "账号安全风险归零",
+      "运营效率提升 3-5倍",
+      "管理成本降低 50%"
+    ],
+    roi: "1个月回本",
+    color: "green"
+  },
+  {
+    icon: TrendingUp,
+    type: "成长型电商公司",
+    scale: "团队 10-50人",
+    mainProblems: [
+      "网络不稳定影响全团队效率",
+      "缺乏技术支持，问题无人解决",
+      "多个工具成本高，还不好用"
+    ],
+    ourSolution: [
+      "企业级专线，全员稳定高速",
+      "7×24h专家支持，30分钟响应",
+      "一站式解决方案，降低成本"
+    ],
+    results: [
+      "全员工作效率提升 60%",
+      "技术问题快速解决",
+      "工具成本降低 40%"
+    ],
+    roi: "1.5个月回本",
+    color: "purple"
+  }
+];
 
 export function UseCases() {
-  const useCases = [
-    {
-      id: "live",
-      label: "电商直播带货",
-      icon: Video,
-      image: "https://images.unsplash.com/photo-1651711912897-e90fa4c1f597?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsaXZlJTIwc3RyZWFtaW5nJTIwYnJvYWRjYXN0fGVufDF8fHx8MTc2MjMxODg0Nnww&ixlib=rb-4.1.0&q=80&w=1080",
-      title: "保障高清流畅互动，提升用户体验与转化率",
-      benefits: [
-        "直播画面高清稳定，无马赛克和卡顿",
-        "实时互动零延迟，弹幕评论即时响应",
-        "多平台同步直播，轻松覆盖全球市场",
-        "支付流程丝般顺滑，减少订单流失"
-      ]
-    },
-    {
-      id: "multi-platform",
-      label: "多平台店铺运营",
-      icon: ShoppingCart,
-      image: "https://images.unsplash.com/photo-1760013767150-da8e4ded6286?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxnbG9iYWwlMjBuZXR3b3JrJTIwdGVjaG5vbG9neXxlbnwxfHx8fDE3NjIzMzE4MDV8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      title: "独立IP安全运营，ERP/订单实时同步",
-      benefits: [
-        "每个店铺独立IP，杜绝账号关联风险",
-        "订单库存实时同步，避免超卖和漏单",
-        "多平台数据整合，统一后台高效管理",
-        "客服系统快速响应，提升客户满意度"
-      ]
-    },
-    {
-      id: "factory",
-      label: "工厂出海转型",
-      icon: Factory,
-      image: "https://images.unsplash.com/photo-1758269445774-61a540a290a6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBmYWN0b3J5JTIwcHJvZHVjdGlvbnxlbnwxfHx8fDE3NjIzMTQwMzN8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      title: "保障B2B视频会议，赋能工厂直播卖货",
-      benefits: [
-        "高清视频会议，展示样品和生产实力",
-        "工厂直播带货，直连海外消费者",
-        "远程展示生产进度，增强客户信任",
-        "ERP系统与海外平台无缝对接"
-      ]
-    }
-  ];
+  const getColorClasses = (color: string) => {
+    const colors = {
+      red: { gradient: "from-red-500 to-pink-500", border: "border-red-200", badge: "bg-red-100 text-red-700" },
+      blue: { gradient: "from-blue-500 to-cyan-500", border: "border-blue-200", badge: "bg-blue-100 text-blue-700" },
+      green: { gradient: "from-green-500 to-emerald-500", border: "border-green-200", badge: "bg-green-100 text-green-700" },
+      purple: { gradient: "from-purple-500 to-indigo-500", border: "border-purple-200", badge: "bg-purple-100 text-purple-700" }
+    };
+    return colors[color as keyof typeof colors] || colors.blue;
+  };
 
   return (
-    <section id="use-cases" className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center mb-12">
-          <h2 className="mb-4 text-gray-900">
-            满足您多样化的跨境业务场景
+    <section id="use-cases" className="py-24 bg-slate-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
+        <div className="text-center mb-16">
+          <div className="inline-block px-4 py-2 bg-blue-100 text-blue-700 rounded-full mb-4">
+            客户类型与解决方案
+          </div>
+          <h2 className="text-slate-900 mb-4">
+            不同类型客户，不同问题，精准解决
           </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
-            无论是电商直播、多平台运营，还是工厂转型，我们都能提供专业的网络解决方案
+          <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+            看看您属于哪种类型，我们能帮您解决什么问题
           </p>
         </div>
 
-        <Tabs defaultValue="live" className="w-full">
-          <TabsList className="grid w-full grid-cols-1 md:grid-cols-3 h-auto gap-2 mb-8 bg-transparent">
-            {useCases.map((useCase) => {
-              const Icon = useCase.icon;
-              return (
-                <TabsTrigger
-                  key={useCase.id}
-                  value={useCase.id}
-                  className="data-[state=active]:bg-blue-600 data-[state=active]:text-white border-2 data-[state=active]:border-blue-600 py-4"
-                >
-                  <Icon className="w-5 h-5 mr-2" />
-                  {useCase.label}
-                </TabsTrigger>
-              );
-            })}
-          </TabsList>
-
-          {useCases.map((useCase) => (
-            <TabsContent key={useCase.id} value={useCase.id}>
-              <Card className="overflow-hidden">
-                <div className="grid md:grid-cols-2 gap-0">
-                  <div className="relative h-64 md:h-auto">
-                    <ImageWithFallback
-                      src={useCase.image}
-                      alt={useCase.label}
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-r from-black/40 to-transparent"></div>
+        {/* Use Cases Grid */}
+        <div className="grid md:grid-cols-2 gap-8">
+          {useCases.map((useCase, index) => {
+            const Icon = useCase.icon;
+            const colors = getColorClasses(useCase.color);
+            
+            return (
+              <Card key={index} className={`p-8 border-2 ${colors.border} hover:shadow-2xl transition-all duration-300`}>
+                {/* Header */}
+                <div className="flex items-start gap-4 mb-6">
+                  <div className={`p-4 bg-gradient-to-br ${colors.gradient} rounded-xl`}>
+                    <Icon className="h-8 w-8 text-white" />
                   </div>
-                  <div className="p-8">
-                    <h3 className="mb-6 text-gray-900">
-                      {useCase.title}
+                  <div className="flex-1">
+                    <h3 className="text-slate-900 mb-1">
+                      {useCase.type}
                     </h3>
-                    <div className="space-y-4">
-                      {useCase.benefits.map((benefit, index) => (
-                        <div key={index} className="flex items-start gap-3">
-                          <CheckCircle2 className="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" />
-                          <p className="text-gray-700">{benefit}</p>
-                        </div>
-                      ))}
-                    </div>
+                    <p className="text-sm text-slate-500">{useCase.scale}</p>
                   </div>
                 </div>
+
+                {/* Main Problems */}
+                <div className="mb-6">
+                  <h4 className="text-slate-900 mb-3">
+                    核心痛点：
+                  </h4>
+                  <div className="space-y-2">
+                    {useCase.mainProblems.map((problem, i) => (
+                      <div key={i} className="flex items-start gap-2 text-slate-600">
+                        <span className="text-red-500 mt-1">✗</span>
+                        <span>{problem}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Our Solution */}
+                <div className="mb-6">
+                  <h4 className="text-slate-900 mb-3">
+                    我们的解决方案：
+                  </h4>
+                  <div className="space-y-2">
+                    {useCase.ourSolution.map((solution, i) => (
+                      <div key={i} className="flex items-start gap-2 text-slate-600">
+                        <span className="text-green-500 mt-1">✓</span>
+                        <span>{solution}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Results */}
+                <div className="mb-6 p-4 bg-green-50 rounded-lg border border-green-200">
+                  <h4 className="text-green-900 mb-3">
+                    实际效果：
+                  </h4>
+                  <div className="space-y-2">
+                    {useCase.results.map((result, i) => (
+                      <div key={i} className="flex items-start gap-2 text-green-700">
+                        <span className="mt-1">📈</span>
+                        <span>{result}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* ROI */}
+                <div className={`pt-4 border-t ${colors.border} flex items-center justify-between`}>
+                  <span className="text-slate-600">投资回报周期</span>
+                  <span className={`px-4 py-2 ${colors.badge} rounded-full`}>
+                    {useCase.roi}
+                  </span>
+                </div>
               </Card>
-            </TabsContent>
-          ))}
-        </Tabs>
+            );
+          })}
+        </div>
+
+        {/* CTA */}
+        <div className="mt-16 text-center">
+          <div className="inline-block p-8 bg-white rounded-2xl shadow-lg max-w-3xl">
+            <h3 className="text-slate-900 mb-4">
+              找不到您的业务类型？
+            </h3>
+            <p className="text-slate-600 mb-6">
+              每个跨境电商企业的情况都不同，让我们的专家为您量身定制解决方案
+            </p>
+            <button 
+              onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+              className="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              免费咨询我的业务 →
+            </button>
+          </div>
+        </div>
       </div>
     </section>
   );
