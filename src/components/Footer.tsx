@@ -79,13 +79,13 @@ export function Footer() {
             © {currentYear} LingExpress. 版权所有
           </p>
           <div className="flex gap-6">
-            <a href="#" className="hover:text-blue-400 transition-colors">
+            <a href="/privacy-policy.html" className="hover:text-blue-400 transition-colors">
               隐私政策
             </a>
-            <a href="#" className="hover:text-blue-400 transition-colors">
+            <a href="/terms-of-service.html" className="hover:text-blue-400 transition-colors">
               服务条款
             </a>
-            <a href="#" className="hover:text-blue-400 transition-colors">
+            <a href="/compliance.html" className="hover:text-blue-400 transition-colors">
               合规声明
             </a>
           </div>

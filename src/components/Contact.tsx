@@ -5,8 +5,8 @@ import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { Label } from "./ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
-import { toast } from "sonner@2.0.3";
-import { Mail, Phone, MessageSquare, Send, CheckCircle2 } from "lucide-react";
+import { toast } from "sonner";
+import { Mail, MessageSquare, Send, CheckCircle2 } from "lucide-react";
 import wechatQR from "figma:asset/de6bf7ac200b7d647eb97380aafd7c672063a8ff.png";
 
 export function Contact() {
@@ -17,27 +17,52 @@ export function Contact() {
     problem: "",
     requirements: ""
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+
     // Validate form
     if (!formData.name || !formData.phone || !formData.problem) {
       toast.error("请填写姓名、联系电话和遇到的问题");
       return;
     }
 
-    // In a real application, this would send data to a backend
-    toast.success("提交成功！我们的专家会在30分钟内联系您");
-    
-    // Reset form
-    setFormData({
-      name: "",
-      company: "",
-      phone: "",
-      problem: "",
-      requirements: ""
-    });
+    try {
+      setIsSubmitting(true);
+      const response = await fetch("https://formsubmit.co/ajax/lingexpress@cyber-router.com", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json"
+        },
+        body: JSON.stringify({
+          姓名: formData.name,
+          公司: formData.company,
+          联系电话: formData.phone,
+          主要问题: formData.problem,
+          需求描述: formData.requirements,
+          来源: "LingExpress 官网"
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error("网络请求失败");
+      }
+
+      toast.success("提交成功！我们的专家会在30分钟内联系您");
+      setFormData({
+        name: "",
+        company: "",
+        phone: "",
+        problem: "",
+        requirements: ""
+      });
+    } catch (error) {
+      toast.error("提交失败，请稍后再试或通过邮箱联系我们");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -71,16 +96,7 @@ export function Contact() {
         <div className="grid lg:grid-cols-2 gap-8">
           {/* Contact Form */}
           <Card className="p-8 bg-white/10 backdrop-blur-lg border-white/20">
-            <div className="mb-6">
-              <h3 className="text-white mb-2">
-                第一步：告诉我们您的问题
-              </h3>
-              <p className="text-blue-200 text-sm">
-                我们会根据您的具体情况，提供针对性的解决方案
-              </p>
-            </div>
-            
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6" aria-label="联系 LingExpress 获取跨境网络方案">
               <div>
                 <Label htmlFor="problem" className="text-white">
                   您遇到的主要问题 <span className="text-orange-400">*</span>
@@ -164,35 +180,23 @@ export function Contact() {
                 type="submit"
                 className="w-full bg-orange-500 hover:bg-orange-600 text-white"
                 size="lg"
+                disabled={isSubmitting}
               >
                 <Send className="mr-2 h-5 w-5" />
-                提交，获取免费诊断方案
+                {isSubmitting ? "提交中..." : "提交，获取免费诊断方案"}
               </Button>
-
-              <div className="flex items-center gap-2 text-sm text-blue-200">
-                <CheckCircle2 className="h-4 w-4 text-green-400" />
-                <span>我们承诺不会泄露您的信息</span>
-              </div>
+              <p className="text-xs text-blue-200">
+                提交即表示您同意我们的
+                <a href="/privacy-policy.html" className="underline mx-1 text-white">
+                  隐私政策
+                </a>
+                ，我们将严格保护您的业务信息。
+              </p>
             </form>
           </Card>
 
           {/* Contact Info */}
           <div className="space-y-6">
-            <Card className="p-6 bg-white/10 backdrop-blur-lg border-white/20">
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <Phone className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <h4 className="mb-2 text-white">电话咨询</h4>
-                  <p className="text-blue-200">
-                    工作日 9:00-18:00
-                  </p>
-                  <p className="text-white mt-1">400-XXX-XXXX</p>
-                </div>
-              </div>
-            </Card>
-
             <Card className="p-6 bg-white/10 backdrop-blur-lg border-white/20">
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 bg-purple-500 rounded-lg flex items-center justify-center flex-shrink-0">
@@ -203,7 +207,11 @@ export function Contact() {
                   <p className="text-blue-200">
                     24小时内回复
                   </p>
-                  <p className="text-white mt-1">contact@lingexpress.com</p>
+                  <p className="text-white mt-1">
+                    <a href="mailto:lingexpress@cyber-router.com" className="hover:underline">
+                      lingexpress@cyber-router.com
+                    </a>
+                  </p>
                 </div>
               </div>
             </Card>
@@ -219,10 +227,11 @@ export function Contact() {
                     扫码添加专属顾问，立即沟通
                   </p>
                   <div className="w-32 h-32 bg-white rounded-lg overflow-hidden">
-                    <img 
-                      src={wechatQR} 
-                      alt="微信二维码" 
+                    <img
+                      src={wechatQR}
+                      alt="LingExpress 客服顾问微信二维码"
                       className="w-full h-full object-cover"
+                      loading="lazy"
                     />
                   </div>
                 </div>

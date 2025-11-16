@@ -1,22 +1,28 @@
 import { ArrowRight } from "lucide-react";
 import { Button } from "./ui/button";
+import { ImageWithFallback } from "./figma/ImageWithFallback";
 
 export function Hero() {
-  const scrollToContact = () => {
-    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+      if (typeof window !== 'undefined') {
+        window.history.replaceState(null, '', `#${id}`);
+      }
+    }
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
-      {/* Background Image with Overlay */}
-      <div 
-        className="absolute inset-0 z-0"
-        style={{
-          backgroundImage: 'url(https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
-      >
+    <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden" aria-labelledby="hero-heading">
+      {/* Background Image */}
+      <div className="absolute inset-0 z-0">
+        <ImageWithFallback
+          src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80"
+          alt="LingExpress 灵思跨境专线支持全球业务的网络拓扑图"
+          className="w-full h-full object-cover"
+          loading="lazy"
+        />
         <div className="absolute inset-0 bg-gradient-to-br from-slate-900/95 via-blue-900/90 to-slate-900/95"></div>
       </div>
 
@@ -25,7 +31,7 @@ export function Hero() {
         <div className="space-y-8 sm:space-y-12">
           {/* Main Message - Single Focus */}
           <div className="space-y-4 sm:space-y-6">
-            <h1 className="text-white leading-tight text-4xl sm:text-5xl lg:text-6xl">
+            <h1 id="hero-heading" className="text-white leading-tight text-4xl sm:text-5xl lg:text-6xl">
               跨境电商每天都在
               <br />
               <span className="text-red-400">流失订单和客户</span>
@@ -42,7 +48,7 @@ export function Hero() {
           <div className="pt-4">
             <Button 
               size="lg" 
-              onClick={scrollToContact}
+              onClick={() => scrollToSection('contact')}
               className="bg-orange-500 hover:bg-orange-600 text-white px-8 sm:px-12 py-6 sm:py-8 text-xl sm:text-2xl shadow-2xl hover:shadow-orange-500/50 transition-all w-full sm:w-auto"
             >
               免费诊断我的问题
